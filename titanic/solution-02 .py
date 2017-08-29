@@ -76,39 +76,39 @@ new_data_train['Age'].fillna(new_data_train['Age'].mean(), inplace=True)
 new_data_test['Age'].fillna(new_data_test['Age'].mean(), inplace=True)
 
 
-# In[13]:
+# In[12]:
 
 
 new_data_test.isnull().sum().sort_values(ascending=False).head(10)
 
 
-# In[14]:
+# In[13]:
 
 
 new_data_test['Fare'].fillna(new_data_test['Fare'].mean(), inplace=True)
 
 
-# In[15]:
+# In[14]:
 
 
 X = new_data_train.drop('Survived', axis=1)
 y = new_data_train['Survived']
 
 
-# In[16]:
+# In[15]:
 
 
 tree = DecisionTreeClassifier(max_depth=3, random_state=0)
 tree.fit(X, y)
 
 
-# In[18]:
+# In[16]:
 
 
 tree.score(X, y)
 
 
-# In[19]:
+# In[17]:
 
 
 submission = pd.DataFrame()
@@ -116,26 +116,8 @@ submission['PassengerId'] = new_data_test['PassengerId']
 submission['Survived'] = tree.predict(new_data_test)
 
 
-# In[ ]:
+# In[18]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+submission.to_csv('data/submission.csv', index=False)
 
