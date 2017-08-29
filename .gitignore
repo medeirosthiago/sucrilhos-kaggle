@@ -1,0 +1,15 @@
+.DS_Store
+
+*.pyc
+__pycache__/
+
+.ipynb_checkpoints
+
+.python-version
+
+*.log
+
+data/
+
+.env*
+.cache*
