@@ -23,6 +23,7 @@ HTML("""
 
 
 import warnings
+warnings.filterwarnings('ignore')
 
 get_ipython().magic('matplotlib inline')
 import matplotlib
@@ -40,63 +41,105 @@ pd.options.display.max_rows = 100
 matplotlib.style.use('ggplot')
 
 
+# In[4]:
+
+
+train = pd.read_csv('data/train.csv')
+train.shape
+
+
 # In[5]:
 
 
-data = pd.read_csv('data/train.csv')
-data.shape
+train.head()
 
 
 # In[6]:
 
 
-data.head()
+train.describe()
 
 
 # In[7]:
 
 
-data.describe()
+train['Age'].fillna(train['Age'].median(), inplace=True)
 
 
-# In[ ]:
+# In[8]:
 
 
-data['Age'].fillna(data['Age'].m)
+train.describe()
 
 
-# In[ ]:
+# In[9]:
+
+
+survived_sex = train[train['Survived'] == 1]['Sex'].value_counts()
+dead_sex = train[train['Survived'] == 0]['Sex'].value_counts()
+df = pd.DataFrame([survived_sex, dead_sex])
+df.index = ['Survived', 'Dead']
+
+
+# In[10]:
+
+
+df.plot(kind='bar', stacked=True, figsize=(15, 8))
+
+
+# In[14]:
+
+
+figure = plt.figure(figsize=(15, 8))
+plt.hist([train[train['Survived'] == 1]['Age'],
+          train[train['Survived'] == 0]['Age']],
+          stacked=True,
+          bins=30, label=['Survived', 'Dead'])
+plt.xlabel('Age')
+plt.ylabel('Number of passengers')
+plt.legend()
+
+
+# In[22]:
+
+
+figure = plt.figure(figsize=(15, 8))
+plt.hist([train[train['Survived'] == 1]['Fare'],
+          train[train['Survived'] == 0]['Fare']],
+          stacked=True,
+          bins=30, label=['Survived', 'Dead'])
+plt.xlabel('Fare')
+plt.ylabel('Number of passengers')
+plt.legend()
+
+
+# In[33]:
+
+
+plt.figure(figsize=(15, 8))
+ax = plt.subplot()
+ax.scatter(train[train['Survived'] == 1]['Age'], train[train['Survived'] == 1]['Fare'], c='green', s=40)
+ax.scatter(train[train['Survived'] == 0]['Age'], train[train['Survived'] == 0]['Fare'], c='red', s=40)
+ax.set_xlabel('Age')
+ax.set_ylabel('Fare')
+ax.legend(('survived', 'dead'), scatterpoints=1, loc='upper_right')
+
+
+# In[38]:
 
 
 
+ax = plt.subplot()
+ax.set_ylabel('Average fare')
+train.groupby('Pclass').mean()['Fare'].plot(kind='bar', figsize=(15, 8), ax=ax)
 
 
-# In[ ]:
+# In[43]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+survived_embark = train[train['Survived'] == 1]['Embarked'].value_counts()
+dead_embark = train[train['Survived'] == 0]['Embarked'].value_counts()
+df = pd.DataFrame([survived_embark, dead_embark])
+df.index = ['Survived', 'Dead']
+df.plot(kind='bar', stacked=True, figsize=(15, 8))
 
